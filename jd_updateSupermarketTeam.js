@@ -97,7 +97,7 @@ async function getTeamId() {
       const DateNowH = new Date(DateNow).getHours();
       console.log(`现在北京时间：${DateNowH}点，第${$.index}个京东账号`);
       console.log(`暂未加入战队,现在等待120秒后开始创建PK战队`);
-      await $.wait(120000);
+      await $.wait(1000 * 60 * 4);
       await smtg_createPkTeam();
       await getTeamId();
     } else if (joinStatus === 1) {
@@ -121,7 +121,7 @@ async function getTeamId() {
 //创建PK战队API
 function smtg_createPkTeam() {
   return new Promise((resolve) => {
-    $.get(taskUrl('smtg_createPkTeam', { "teamName": `lxk030${$.index}`,  "channel": "1" }), (err, resp, data) => {
+    $.get(taskUrl('smtg_createPkTeam', { "teamName": `l499477004${$.index}`,  "channel": "1" }), (err, resp, data) => {
       try {
         if (err) {
           console.log('\n京小超: API查询请求失败 ‼️‼️')

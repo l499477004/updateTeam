@@ -7,12 +7,13 @@ const JD_API_HOST = 'https://m.jingxi.com';
 const fs = require('fs');
 const notify = $.isNode() ? require('./sendNotify') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
-const tuanActiveId = `gaVXW_NJ0KPEA2LyUhoXzA==`;
+const tuanActiveId = `t2cdKwg2QPBzAqd5KMCNHg==`;
 let cookiesArr = [], cookie = '', message = '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 Object.keys(jdCookieNode).forEach((item) => {
   cookiesArr.push(jdCookieNode[item])
 })
+cookiesArr = cookiesArr.splice(0, 10);
 if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
 !(async () => {
   if (!cookiesArr[0]) {
@@ -78,7 +79,7 @@ async function writeFile() {
   console.log(`文件写入成功，已经替换`);
   console.log(`等待6秒后刷新CDN缓存`);
   await $.wait(6000);
-  await $.http.get({url: `https://purge.jsdelivr.net/gh/lxk0301/updateTeam@master/jd_updateFactoryTuanId.json`}).then((resp) => {
+  await $.http.get({url: `https://purge.jsdelivr.net/gh/l499477004/updateTeam@master/jd_updateFactoryTuanId.json`}).then((resp) => {
     if (resp.statusCode === 200) {
       console.log(`已刷新CDN缓存`)
     } else {
