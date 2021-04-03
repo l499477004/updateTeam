@@ -62,7 +62,7 @@ const JD_API_HOST = 'https://api.m.jd.com/';
 function showMsg() {
   return new Promise(async resolve => {
     try {
-      await $.http.get({url: `https://purge.jsdelivr.net/gh/l499477004/updateTeam@main/jd_updateBeanHome.json`}).then((resp) => {
+      await $.http.get({url: `https://purge.jsdelivr.net/gh/shylocks/updateTeam@main/jd_updateBeanHome.json`}).then((resp) => {
         if (resp.statusCode === 200) {
           console.log(`已刷新CDN缓存`)
         } else {
@@ -78,7 +78,9 @@ function showMsg() {
 }
 
 async function writeFile() {
-  await fs.writeFileSync('jd_updateBeanHome.json', JSON.stringify($.codeInfo));
+  if (!fs.existsSync(`./shareCodes`)) fs.mkdirSync(`./shareCodes`);
+  await fs.writeFileSync(`./shareCodes/jd_updateBeanHome.json`, JSON.stringify($.codeInfo));
+  // await fs.writeFileSync('jd_updateBeanHome.json', JSON.stringify($.codeInfo));
   console.log(`文件写入成功,inviteCode已经替换`);
 }
 

@@ -1,16 +1,16 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: 更新京东健康邀请码
+name: jd_updateCFD
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 16-23/2,0-3/1 * * *'
+    - cron: '10 16 * * *'
   watch:
     types: started
   repository_dispatch:
-    types: jd_update_jdh
+    types: jd_updateCFD
 jobs:
   build:
     env:
@@ -26,9 +26,9 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: '运行 【更新京东健康邀请码】'
+      - name: '运行 【更新财富岛互助码】'
         run: |
-          node jd_update_jdh.js
+          node jd_updateCfd.js
         env:
           JD_COOKIE: ${{ secrets.JD_COOKIE }}
           JD_DEBUG: ${{ secrets.JD_DEBUG }}
@@ -37,9 +37,9 @@ jobs:
       - name: commit
         run: |
           git config --global user.email ${{ secrets.EMAIL }}
-          git config --global user.name l499477004
+          git config --global user.name ${{ secrets.USER_NAME }}
           git add .
-          git commit -m "update by l499477004 Github Action" -a || echo "Nothing to update"
+          git commit -m "update by lxk0301" -a || echo "Nothing to update"
       
       - name: Push changes
         uses: ad-m/github-push-action@master
@@ -47,14 +47,14 @@ jobs:
           github_token: ${{ secrets.TOKEN }}
           branch: master
       - name: Purge CDN Cache
-        run: curl https://purge.jsdelivr.net/gh/l499477004/updateTeam@master/jd_jdh.json
+        run: curl https://purge.jsdelivr.net/gh/fickgit/updateTeam@master/shareCodes/cfd.json
       # 我自己同步到gitee使用，其他人可忽略
       - name: sync github -> gitee
         uses: Yikun/hub-mirror-action@master
         if: env.dst_key
         with:
-          src: github/l499477004
-          dst: gitee/l499477004
+          src: ${{ secrets.SRC_USER }}
+          dst: ${{ secrets.DST_USER }}
           static_list: "updateTeam"
           dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
           dst_token: ${{ secrets.GITEE_TOKEN }}
